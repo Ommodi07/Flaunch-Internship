@@ -4,6 +4,20 @@ import re
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter
 from langchain_groq import ChatGroq
+import cohere 
+
+co = cohere.Client(
+  api_key="CZFzpn1c1Zz46wLGuErAffHrpkrrdG8d7ZJ1fXpP"
+)
+# Summarize function using Cohere's generate API
+def summarize(transcript):
+    response = co.generate(
+        model='command-r-08-2024',  # Cohere's latest model
+        prompt=f"Summarize this transcript in about 300 words: {transcript}",
+        max_tokens=400,  # Set the token limit
+        temperature=0.3  # Control creativity
+    )
+    return response.generations[0].text  # Return the summary text
 
 # Groq AI API setup
 llm = ChatGroq(
@@ -37,8 +51,7 @@ def get_transcript(youtube_url):
 
 # Function to generate summary and quiz based on the transcript
 def generate_summary_and_quiz(transcript, num_questions, language):
-    prompt = f"""Summarize the following transcript in about 200 words.
-    Then create a quiz with {num_questions} multiple-choice questions based on the content.
+    prompt = f"""create a quiz with {num_questions} multiple-choice questions based on the content.
     The quiz questions and options should always be in English, regardless of the transcript language.
     Format the output as follows:
     Summary: [Your summary here]
@@ -116,15 +129,16 @@ def main():
                 transcript, language = get_transcript(youtube_link)
                 if transcript:
                     st.success("Transcript fetched successfully!")
-
+                    
                     # Generate summary and quiz
+                    transcript = summarize(transcript)
                     content = generate_summary_and_quiz(transcript, num_questions, language)
                     if content:
                         quiz = parse_content(content)
 
-                        # Display Summary and Quiz
-                        st.subheader("📄 Summary:")
-                        st.markdown(f"<p style='color: #333; background-color: #F9F9F9; padding: 10px; border-radius: 10px;'>{content[:300]}...</p>", unsafe_allow_html=True)
+#                         # Display Summary and Quiz
+#                         st.subheader("📄 Summary:")
+#                         st.markdown(f"<p style='color: #333; background-color: #F9F9F9; padding: 10px; border-radius: 10px;'>{content[:300]}...</p>", unsafe_allow_html=True)
 
                         # Show the quiz in a more structured format
                         st.subheader("📝 Generated Quiz:")
