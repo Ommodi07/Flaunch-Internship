@@ -6,7 +6,7 @@ import pickle
 llm = ChatGroq(
     model="llama-3.1-70b-versatile",
     temperature=0,
-    groq_api_key="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"
+    groq_api_key="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"
 )
 
 model_load = pickle.load(open('trained.sav','rb'))
