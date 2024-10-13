@@ -2,14 +2,29 @@ import streamlit as st
 from langchain_groq import ChatGroq
 import pickle
 
-# Initialize the ChatGroq model
-llm = ChatGroq(
-    model="llama-3.1-70b-versatile",
-    temperature=0,
-    groq_api_key="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"
-)
+import streamlit as st
+from langchain_groq import ChatGroq
+import pickle
 
-model_load = pickle.load(open('trained.sav','rb'))
+# Securely load the API key with error handling
+try:
+    groq_api_key = st.secrets["GROQ_API_KEY"]
+except KeyError:
+    st.error("API Key not found. Please check your secrets.toml or app settings.")
+
+# Initialize the ChatGroq model
+if 'groq_api_key' in locals():
+    llm = ChatGroq(
+        model="llama-3.1-70b-versatile",
+        temperature=0,
+        groq_api_key=groq_api_key
+    )
+
+# Load the pre-trained model
+try:
+    model_load = pickle.load(open('trained.sav', 'rb'))
+except FileNotFoundError:
+    st.error("The trained model file 'trained.sav' was not found. Please make sure the file exists.")
 
 # Custom CSS for better styling
 st.markdown("""
@@ -39,7 +54,7 @@ st.markdown("""
             border-radius: 10px;
             font-size: 18px;
         }
-        .gender {
+        .gender-warning {
             font-size: 15px;
             font-weight: bold;
             color: #ff0303;
@@ -54,89 +69,67 @@ st.write("Provide your height, weight, and training goals to get a personalized 
 # Section: Input Fields
 st.markdown('<p class="section-title">🔢 Enter Your Information</p>', unsafe_allow_html=True)
 
-#initialization
-height = 0
-weight =0
-sex = ""
-interest = ""
+# Initialization of variables
+height = st.text_input("Enter your height (in feet)", placeholder="e.g., 5.8")
+weight = st.text_input("Enter your weight (in kg)", placeholder="e.g., 70")
+sex = st.text_input("Enter your Gender", placeholder="e.g., male or female")
+interest = st.text_input("What are your fitness goals?", placeholder="e.g., weight loss, muscle gain, etc.")
 
-# Input fields for height, weight, and interests
-with st.container():
-    height = st.text_input("Enter your height (in feet)", placeholder="e.g., 5.8", key="height")
-    weight = st.text_input("Enter your weight (in kg)", placeholder="e.g., 70", key="weight")
-    sex = st.text_input("Enter your Gender ", placeholder="e.g., male or female", key="sex")
-    
-    # Handling gender input
-    if sex.lower() == 'male':
-        sex = 1
-    elif sex.lower() == 'female':
-        sex = 0
-    else:
-        st.write('<p class="gender">Enter you gender properly(male or female)</p>', unsafe_allow_html=True)
-
-    interest = st.text_input("What are your fitness goals?", placeholder="special notes (none for no interest)", key="interest")
-
-# Ensure height and weight are numeric
+# Input validation and processing
 try:
     height = float(height)  # Convert height to a float
 except ValueError:
-    st.write("")
+    st.warning("Please enter a valid height (e.g., 5.8).")
+    height = None
 
 try:
     weight = float(weight)  # Convert weight to a float
 except ValueError:
-    st.write("")
+    st.warning("Please enter a valid weight in kg (e.g., 70).")
+    weight = None
 
-# Section: Generate Button
-st.markdown('<p class="section-title">⚙️ Generate Your Gym Schedule</p>', unsafe_allow_html=True)
-# Predicting the weight for the given height and sex
+# Handling gender input
+if sex.lower() == 'male':
+    sex_code = 1
+elif sex.lower() == 'female':
+    sex_code = 0
+else:
+    st.markdown('<p class="gender-warning">Please enter your gender correctly (male or female).</p>', unsafe_allow_html=True)
+    sex_code = None
+
+# Prediction model for ideal weight range
 weight_max = 0
 weight_min = 0
-if isinstance(height, (int, float)) and isinstance(sex, int):
-    weight_max = model_load.predict([[height, sex]])
-    weight_min = model_load.predict([[height, sex]]) - 10
-    
-if sex == 0:
-        sex = 'female'
-elif sex == 1:
-        sex = 'male'
+
+if height is not None and sex_code is not None:
+    try:
+        weight_max = model_load.predict([[height, sex_code]])[0]
+        weight_min = weight_max - 10
+    except Exception as e:
+        st.error(f"Error in model prediction: {str(e)}")
+
 # Button to generate the gym schedule
-if st.button("Generate Schedule", key="generate", help="Click to get your personalized schedule"):
-    if height and weight and interest and sex is not None:
+st.markdown('<p class="section-title">⚙️ Generate Your Gym Schedule</p>', unsafe_allow_html=True)
+
+if st.button("Generate Schedule", key="generate"):
+    if height and weight and interest and sex_code is not None:
+        # Determine fitness goal based on weight
         if weight <= weight_min:
-            # Prepare the output string for LLM
-            st.write("As per your information generating a schedule for weight gain.")
-            output_str = f"Generate the weekly gym schedule with diet plan for a {height} feet tall {sex} with {weight} kg weight and interested in weight gain domain. {interest}"
-
-            # Get the response from the model
-            response = llm.invoke(output_str)
-        
-            # Display the response
-            st.markdown('<p class="section-title">🏋️‍♂️ Your Gym Schedule</p>', unsafe_allow_html=True)
-            st.success(response.content)
-            
+            st.write("Generating a schedule for weight gain.")
+            output_str = f"Generate a weekly gym schedule with diet plan for a {height} feet tall {sex} with {weight} kg weight, interested in weight gain. {interest}"
         elif weight >= weight_max:
-            # Prepare the output string for LLM
-            st.write("As per your information generating a schedule for weight loss.")
-            output_str = f"Generate the weekly gym schedule with diet plan for a {height} feet tall {sex} with {weight} kg weight and interested in weight loss domain. {interest}"
-
-            # Get the response from the model
-            response = llm.invoke(output_str)
-        
-            # Display the response
-            st.markdown('<p class="section-title">🏋️‍♂️ Your Gym Schedule</p>', unsafe_allow_html=True)
-            st.success(response.content)
-
+            st.write("Generating a schedule for weight loss.")
+            output_str = f"Generate a weekly gym schedule with diet plan for a {height} feet tall {sex} with {weight} kg weight, interested in weight loss. {interest}"
         else:
-            # Prepare the output string for LLM
-            st.write("As per your information you are completely fit person, Thus generating a schedule for maintain your body.")
-            output_str = f"Generate the weekly gym schedule with diet plan for a {height} feet tall {sex} with {weight} kg weight and interested in normal exercise to maintain body. {interest}"
+            st.write("Generating a schedule for maintaining body fitness.")
+            output_str = f"Generate a weekly gym schedule with diet plan for a {height} feet tall {sex} with {weight} kg weight, interested in normal exercise to maintain body. {interest}"
 
-            # Get the response from the model
+        # Get the response from the LLM
+        try:
             response = llm.invoke(output_str)
-        
-            # Display the response
             st.markdown('<p class="section-title">🏋️‍♂️ Your Gym Schedule</p>', unsafe_allow_html=True)
             st.success(response.content)
+        except Exception as e:
+            st.error(f"Error in generating gym schedule: {str(e)}")
     else:
         st.warning("Please fill in all the fields before generating the schedule.")
