@@ -20,6 +20,7 @@ int main()
         {
             cout << s;
         }
+        cout << "hello";
         cout << endl;
     }
 }
