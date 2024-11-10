@@ -2,10 +2,6 @@ import streamlit as st
 from langchain_groq import ChatGroq
 import pickle
 
-import streamlit as st
-from langchain_groq import ChatGroq
-import pickle
-
 # Securely load the API key with error handling
 try:
     groq_api_key = st.secrets["GROQ_API_KEY"]
