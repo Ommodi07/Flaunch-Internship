@@ -16,10 +16,12 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 def get_gemini_response(question, prompt):
     model = genai.GenerativeModel('gemini-pro')
     response = model.generate_content([prompt[0], question])
+    st.write("1",response.text)
     return response.text
 
 # Function to clean the AI-generated query
 def clean_sql_query(query):
+    st.write("2",query)
     # Remove markdown backticks and unnecessary words like 'sql' or ''
     query = query.replace("sql", "").replace("", "").strip()
     return query
