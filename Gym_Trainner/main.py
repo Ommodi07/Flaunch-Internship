@@ -21,7 +21,7 @@ if 'groq_api_key' in locals():
 # Load the pre-trained model
 model_load = 0;
 try:
-    model_load = pickle.load(open('trained.sav', 'rb'))
+    model_load = pickle.load(open('Gym_Trainner/trained.sav', 'rb'))
 except FileNotFoundError:
     st.error("The trained model file 'trained.sav' was not found. Please make sure the file exists.")
 
