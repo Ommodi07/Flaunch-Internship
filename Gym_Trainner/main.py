@@ -8,6 +8,9 @@ try:
 except KeyError:
     st.error("API Key not found. Please check your secrets.toml or app settings.")
 
+import os
+st.write("Current working directory:", os.getcwd())
+st.write("Files in directory:", os.listdir(os.getcwd()))
 
 llm = 0;
 # Initialize the ChatGroq model
@@ -21,9 +24,9 @@ if 'groq_api_key' in locals():
 # Load the pre-trained model
 model_load = 0;
 try:
-    model_load = pickle.load(open('/trained.sav', 'rb'))
+    model_load = pickle.load(open('trained.sav', 'rb'))
 except FileNotFoundError:
-    st.error("The trained model file 'trained.sav' was not found. Please make sure the file exists.")
+    st.error("The trained model file 'trained.sav' was not found.")
 
 # Custom CSS for better styling
 st.markdown("""
