@@ -25,6 +25,9 @@ if 'groq_api_key' in locals():
 model_load = 0;
 
 st.write("Contents of Gym_Trainner:", os.listdir("Gym_Trainner"))
+model_path = os.path.join(os.path.dirname(__file__), 'Gym_Trainner', 'trained.sav')
+model_load = pickle.load(open(model_path, 'rb'))
+st.write("Full path to model:", model_path)
 
 try:
     # model_load = pickle.load(open('trained.sav', 'rb'))
