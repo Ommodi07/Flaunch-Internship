@@ -24,7 +24,7 @@ if 'groq_api_key' in locals():
 # Load the pre-trained model
 model_load = 0;
 try:
-    with open('trained.sav', 'rb') as file:
+    with open('./trained.sav', 'rb') as file:
         model_load = pickle.load(file)
     print("Model loaded successfully!")
 except ModuleNotFoundError as e:
