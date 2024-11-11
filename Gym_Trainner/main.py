@@ -9,8 +9,8 @@ except KeyError:
     st.error("API Key not found. Please check your secrets.toml or app settings.")
 
 import os
-# st.write("Current working directory:", os.getcwd())
-# st.write("Files in directory:", os.listdir(os.getcwd()))
+st.write("Current working directory:", os.getcwd())
+st.write("Files in directory:", os.listdir(os.getcwd()))
 
 llm = 0;
 # Initialize the ChatGroq model
@@ -23,11 +23,6 @@ if 'groq_api_key' in locals():
 
 # Load the pre-trained model
 model_load = 0;
-
-st.write("Contents of Gym_Trainner:", os.listdir("Gym_Trainner"))
-model_path = os.path.join(os.path.dirname(__file__), 'Gym_Trainner', 'trained.sav')
-model_load = pickle.load(open(model_path, 'rb'))
-st.write("Full path to model:", model_path)
 
 try:
     # model_load = pickle.load(open('trained.sav', 'rb'))
