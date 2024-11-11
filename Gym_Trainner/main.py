@@ -28,7 +28,7 @@ st.write("Contents of Gym_Trainner:", os.listdir("Gym_Trainner"))
 
 try:
     # model_load = pickle.load(open('trained.sav', 'rb'))
-    model_load = pickle.load(open('Gym_Trainner/trained.sav', 'rb'))
+    model_load = pickle.load(open('trained.sav', 'rb'))
 
 except FileNotFoundError:
     st.error("The trained model file 'trained.sav' was not found.")
