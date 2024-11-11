@@ -8,9 +8,9 @@ try:
 except KeyError:
     st.error("API Key not found. Please check your secrets.toml or app settings.")
 
-# import os
-# st.write("Current working directory:", os.getcwd())
-# st.write("Files in directory:", os.listdir(os.getcwd()))
+import os
+st.write("Current working directory:", os.getcwd())
+st.write("Files in directory:", os.listdir(os.getcwd()))
 
 llm = 0;
 # Initialize the ChatGroq model
