@@ -4,7 +4,7 @@ import pickle
 
 # Securely load the API key with error handling
 try:
-    groq_api_key = st.secrets["GROQ_API_KEY"]
+    groq_api = st.secrets["GROQ"]
 except KeyError:
     st.error("API Key not found. Please check your secrets.toml or app settings.")
 
@@ -13,7 +13,7 @@ if 'groq_api_key' in locals():
     llm = ChatGroq(
         model="llama-3.1-70b-versatile",
         temperature=0,
-        groq_api_key=groq_api_key
+        groq_api_key=groq_api
     )
 
 # Load the pre-trained model
