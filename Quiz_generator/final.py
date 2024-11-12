@@ -1,14 +1,15 @@
 import streamlit as st
-# import json
 import re
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter
 from langchain_groq import ChatGroq
 import cohere 
 
+# Initialize Cohere client with API key from secrets
 co = cohere.Client(
-  api_key="CZFzpn1c1Zz46wLGuErAffHrpkrrdG8d7ZJ1fXpP"
+  api_key=st.secrets["cohere"]["api_key"]
 )
+
 # Summarize function using Cohere's generate API
 def summarize(transcript):
     response = co.generate(
@@ -19,11 +20,11 @@ def summarize(transcript):
     )
     return response.generations[0].text  # Return the summary text
 
-# Groq AI API setup
+# Initialize Groq AI with API key from secrets
 llm = ChatGroq(
     model="llama-3.1-70b-versatile",
     temperature=0,
-    groq_api_key="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"
+    groq_api_key=st.secrets["groq"]["groq_api_key"]
 )
 
 # Function to get the transcript of the YouTube video
@@ -135,10 +136,6 @@ def main():
                     content = generate_summary_and_quiz(transcript, num_questions, language)
                     if content:
                         quiz = parse_content(content)
-
-#                         # Display Summary and Quiz
-#                         st.subheader("📄 Summary:")
-#                         st.markdown(f"<p style='color: #333; background-color: #F9F9F9; padding: 10px; border-radius: 10px;'>{content[:300]}...</p>", unsafe_allow_html=True)
 
                         # Show the quiz in a more structured format
                         st.subheader("📝 Generated Quiz:")

@@ -1,2 +1,6 @@
 langchain_groq
 streamlit
+re
+youtube_transcript_api
+youtube_transcript_api.formatters
+cohere
