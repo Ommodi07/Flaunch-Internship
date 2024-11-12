@@ -1,5 +1,4 @@
 langchain_groq
 streamlit
-youtube_transcript_api
-youtube_transcript_api.formatters
+youtube_transcript_api==0.6.2
 cohere
