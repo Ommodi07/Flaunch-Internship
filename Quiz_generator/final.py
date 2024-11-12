@@ -102,14 +102,14 @@ def main():
     st.markdown("<h1 style='text-align: center; color: #4CAF50;'>🎓 YouTube Transcript Quiz Generator 📝</h1>", unsafe_allow_html=True)
 
     # Add an image above the link input
-    st.write("Enter the link with having the v=")
+    st.write("Enter the link address having the v= in it.")
 
 
     # Section Header
     st.markdown("### Create a Quiz from Any YouTube Video Transcript")
 
     # Get YouTube video URL from the user
-    youtube_link = st.text_input("🔗 Enter the YouTube video link:", label_visibility='hidden')
+    youtube_link = st.text_input("🔗 Enter the YouTube video link address :", label_visibility='hidden')
 
     # Slider for number of quiz questions with smooth effect
     st.markdown("📋 Select the number of quiz questions:")
