@@ -109,7 +109,7 @@ def main():
     st.markdown("### Create a Quiz from Any YouTube Video Transcript")
 
     # Get YouTube video URL from the user
-    youtube_link = st.text_input("🔗 Enter the YouTube video link:")
+    youtube_link = st.text_input("🔗 Enter the YouTube video link:", label_visibility='hidden')
 
     # Slider for number of quiz questions with smooth effect
     st.markdown("📋 Select the number of quiz questions:")
