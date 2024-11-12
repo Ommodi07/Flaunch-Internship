@@ -5,11 +5,6 @@ from youtube_transcript_api.formatters import TextFormatter
 from langchain_groq import ChatGroq
 import cohere 
 
-# Initialize Cohere client with API key from secrets
-co = cohere.Client(
-  api_key=st.secrets["cohere"]["api_key"]
-)
-
 # Summarize function using Cohere's generate API
 def summarize(transcript):
     response = co.generate(
@@ -20,12 +15,16 @@ def summarize(transcript):
     )
     return response.generations[0].text  # Return the summary text
 
-# Initialize Groq AI with API key from secrets
+co = cohere.Client(
+    api_key=st.secrets["cohere"]["api_key"]
+)
+
 llm = ChatGroq(
     model="llama-3.1-70b-versatile",
     temperature=0,
     groq_api_key=st.secrets["groq"]["groq_api_key"]
 )
+st.write(st.secrets)
 
 # Function to get the transcript of the YouTube video
 def get_transcript(youtube_url):
