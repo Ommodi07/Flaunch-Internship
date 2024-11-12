@@ -102,7 +102,8 @@ def main():
     st.markdown("<h1 style='text-align: center; color: #4CAF50;'>🎓 YouTube Transcript Quiz Generator 📝</h1>", unsafe_allow_html=True)
 
     # Add an image above the link input
-    st.image("images/demo.png", caption="Your Image Caption", use_column_width=True)
+    st.image("https://github.com/Ommodi07/Flaunch-Internship/blob/main/Quiz_generator/images/demo.png", caption="Your Image Caption", use_column_width=True)
+
 
     # Section Header
     st.markdown("### Create a Quiz from Any YouTube Video Transcript")
