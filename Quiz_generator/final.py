@@ -102,7 +102,7 @@ def main():
     st.markdown("<h1 style='text-align: center; color: #4CAF50;'>🎓 YouTube Transcript Quiz Generator 📝</h1>", unsafe_allow_html=True)
 
     # Add an image above the link input
-    st.write("Enter the link like this = https://www.youtube.com/watch?v=iOdFUJiB0Zc&t=3398s")
+    st.write("Enter the link like this = https://www.youtube.com/watch?v=iOdFUJiB0Zc")
 
 
     # Section Header
