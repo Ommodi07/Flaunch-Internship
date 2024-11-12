@@ -27,7 +27,6 @@ llm = ChatGroq(
     temperature=0,
     groq_api_key=st.secrets["groq"]["groq_api_key"]
 )
-st.write(st.secrets)
 
 # Function to get the transcript of the YouTube video
 def get_transcript(youtube_url):
