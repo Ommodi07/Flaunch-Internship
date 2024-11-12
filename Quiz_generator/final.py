@@ -3,13 +3,14 @@ import re
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter
 from langchain_groq import ChatGroq
-import cohere 
+import cohere
 
 st.set_page_config(
     page_title="Quiz Generator", 
     page_icon="📝", 
     layout="centered"
 )
+
 # Summarize function using Cohere's generate API
 def summarize(transcript):
     response = co.generate(
@@ -100,7 +101,7 @@ def main():
     # App Title with emojis
     st.markdown("<h1 style='text-align: center; color: #4CAF50;'>🎓 YouTube Transcript Quiz Generator 📝</h1>", unsafe_allow_html=True)
 
-    # Example with the correct image path
+    # Add an image above the link input
     st.image("images/demo.png", caption="Your Image Caption", use_column_width=True)
 
     # Section Header
