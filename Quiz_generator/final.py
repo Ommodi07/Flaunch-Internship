@@ -113,14 +113,17 @@ def main():
 
     # Slider for number of quiz questions with smooth effect
     st.markdown("📋 Select the number of quiz questions:")
-    num_questions = st.slider("",
-        min_value=1,
-        max_value=20,
-        value=5,
-        step=1,  # Set to 1 for more precise control
-        format="%d",  # Show as integer
-        help="Use this slider to select the number of quiz questions."
-    )
+    num_questions = st.slider(
+    "Select number of questions",  # Provide a meaningful label here
+    min_value=1,
+    max_value=20,
+    value=5,
+    step=1,
+    format="%d",
+    help="Use this slider to select the number of quiz questions.",
+    label_visibility='hidden'  # Hide the label if you don't want it visible
+)
+
 
     # Button to trigger quiz generation
     if st.button("Generate Quiz ✨"):
