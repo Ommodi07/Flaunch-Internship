@@ -5,6 +5,11 @@ from youtube_transcript_api.formatters import TextFormatter
 from langchain_groq import ChatGroq
 import cohere 
 
+st.set_page_config(
+    page_title="Quiz Generator", 
+    page_icon="📝", 
+    layout="centered"
+)
 # Summarize function using Cohere's generate API
 def summarize(transcript):
     response = co.generate(
@@ -15,9 +20,7 @@ def summarize(transcript):
     )
     return response.generations[0].text  # Return the summary text
 
-co = cohere.Client(
-    api_key=st.secrets["cohere"]["api_key"]
-)
+co = cohere.Client(api_key=st.secrets["cohere"]["api_key"])
 
 llm = ChatGroq(
     model="llama-3.1-70b-versatile",
@@ -94,12 +97,7 @@ def parse_content(content):
 
 # Streamlit app starts here
 def main():
-    # Customizing the page layout
-    st.set_page_config(
-    page_title="Quiz Generator", 
-    page_icon="📝", 
-    layout="centered"
-    )
+    
     # App Title with emojis
     st.markdown("<h1 style='text-align: center; color: #4CAF50;'>🎓 YouTube Transcript Quiz Generator 📝</h1>", unsafe_allow_html=True)
 
