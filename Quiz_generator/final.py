@@ -96,11 +96,10 @@ def parse_content(content):
 def main():
     # Customizing the page layout
     st.set_page_config(
-        page_title="Quiz Generator", 
-        page_icon="📝", 
-        layout="centered"
+    page_title="Quiz Generator", 
+    page_icon="📝", 
+    layout="centered"
     )
-
     # App Title with emojis
     st.markdown("<h1 style='text-align: center; color: #4CAF50;'>🎓 YouTube Transcript Quiz Generator 📝</h1>", unsafe_allow_html=True)
 
