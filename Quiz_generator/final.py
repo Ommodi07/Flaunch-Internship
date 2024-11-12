@@ -100,7 +100,7 @@ def main():
     # App Title with emojis
     st.markdown("<h1 style='text-align: center; color: #4CAF50;'>🎓 YouTube Transcript Quiz Generator 📝</h1>", unsafe_allow_html=True)
 
-    st.image("demo.png", caption="Enter this link", use_column_width=True)
+    st.image("/demo.png", caption="Enter this link", use_column_width=True)
 
     # Section Header
     st.markdown("### Create a Quiz from Any YouTube Video Transcript")
