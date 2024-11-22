@@ -8,13 +8,13 @@ try:
 except KeyError:
     st.error("API Key not found. Please check your secrets.toml or app settings.")
 
-import os
-st.write("Current working directory:", os.getcwd())
-st.write("Files in directory:", os.listdir(os.getcwd()))
+# import os
+# st.write("Current working directory:", os.getcwd())
+# st.write("Files in directory:", os.listdir(os.getcwd()))
 
-llm = 0;
+# llm = 0;
 # Initialize the ChatGroq model
-if 'groq_api_key' in locals():
+if 'groq_api' in locals():
     llm = ChatGroq(
         model="llama-3.1-70b-versatile",
         temperature=0,
